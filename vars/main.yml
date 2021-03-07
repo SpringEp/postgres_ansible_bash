@@ -1,0 +1,38 @@
+packages:
+  - postgresql
+  - postgresql-server
+  - postgresql-contrib
+  - python3-psycopg2i
+
+
+listen_addresses:
+  - '*'
+#  - 172.22.2.128/24
+#  - '10.110.163.80/24'
+
+hba_entries:
+  - {type: local, database: all, user: postgres, auth_method: peer}
+  - {type: local, database: all, user: all, auth_method: md5}
+  - {type: host, database: all, user: all, address: '172.22.2.128/32', auth_method: md5}
+  - {type: host, database: all, user: all, address: '::1/128', auth_method: md5}
+
+       
+
+postgresql_port: 5432
+postgresql_admin_user: "postgres"
+postgresql_default_auth_method: "trust"
+postgresql_config_path: /var/lib/pgsql/data/
+
+
+postgresql_users:
+  - name: joe
+    password: redhat
+    encrypted: yes
+  - name: anna
+    password: redhat
+    encrypted: yes
+  - name: user2
+    password: redhat
+    encrypted: yes
+
+

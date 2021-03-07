@@ -1,0 +1,33 @@
+---
+- name: Add a test database
+  hosts: all
+  vars_files:
+    vars/main.yml
+  tasks:
+  - name: add database
+    postgresql_db:
+      name: test_db
+    become: true
+    become_user: postgres
+    become_method: sudo
+ 
+
+  - name: add user to the test database     
+    postgresql_user:
+      name: test_user
+      password: "redhat"
+      encrypted: yes
+      db: test_db
+    become: true
+    become_user: postgres
+    become_method: sudo
+
+  - name: change passwd for postgres user
+    postgresql_user:
+      name: postgres
+      password: postgres
+    become: true
+    become_user: postgres
+    become_method: sudo
+
+

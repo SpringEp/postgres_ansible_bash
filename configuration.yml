@@ -1,0 +1,28 @@
+---
+- name: Configure files pg_dba.conf and postgresql.conf
+  hosts: all
+  vars_files:
+          vars/main.yml
+  tasks:
+  - name: Configure host based authentication (if entries are configured).
+    template:
+      src: "templates/postgresql.conf.j2"
+      dest: "{{ postgresql_config_path }}/postgresql.conf"
+      owner: "postgres"
+      group: "postgres"
+      mode: 0600
+    notify: restart postgresql
+    when: listen_addresses | length > 0
+ 
+  - name: Configure host based authentication (if entries are configured).
+    template:
+      src: "templates/pg_hba.conf.j2"
+      dest: "{{ postgresql_config_path }}/pg_hba.conf"
+      owner: "postgres"
+      group: "postgres"
+      mode: 0600
+    notify: restart postgresql
+    when: hba_entries | length > 0 
+
+  handlers:
+    - import_tasks: handlers/main.yml

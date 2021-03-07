@@ -1,0 +1,20 @@
+---
+- name: add user to the existing postgres db
+  hosts: all
+  vars_files:
+       vars/main.yml   
+  tasks:
+  - name: create users
+    postgresql_user:
+      name: "{{item.name}}"
+      password: "{{ item.password | default(omit) }}"
+      encrypted: "{{ item.encrypted | default(omit) }}"
+      port: "{{postgresql_port}}"
+      state: present
+      login_user: "{{postgresql_admin_user}}"
+    become: yes
+    become_user: "{{postgresql_admin_user}}"
+    loop: "{{postgresql_users}}"
+    when: postgresql_users|length > 0 
+
+

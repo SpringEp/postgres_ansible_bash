@@ -1,0 +1,8 @@
+postgresql_users:
+  - name: joe
+    password: redhat
+    encrypted: 
+  - name: anna
+    password: redhat
+    encrypted:  
+    
